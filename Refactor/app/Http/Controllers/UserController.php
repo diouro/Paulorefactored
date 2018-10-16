@@ -11,7 +11,7 @@ class UserController extends Controller
     public static function getUsers()
     {
      
-        return Users::all();
+        return User::all();
 
     }
     
