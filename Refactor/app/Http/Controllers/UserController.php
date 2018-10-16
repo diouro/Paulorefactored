@@ -14,7 +14,7 @@ class UserControllers extends Controller
     {
      
         return Users::all();
-                
+
     }
     
     public static function getUsersById($id)
@@ -84,6 +84,13 @@ class UserControllers extends Controller
          
         return $pets;
         
+    }
+
+    public static function deleteUserPet($id,$petId)
+    {
+
+        Pet::find($petId)->delete();
+
     }
 
 
