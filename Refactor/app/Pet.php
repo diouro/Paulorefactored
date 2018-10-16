@@ -6,6 +6,13 @@ class Pet extends Model
 {
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'pets';
+
+    /**
      * Function to accessor the user display name
      */
     public function getFavoriteFoodAttribute()

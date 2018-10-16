@@ -39,47 +39,41 @@ class UserControllers extends Controller
     
     public static function addUser()
     {
-     
-        if ($request->has('password')) {
-            unset($request['password']);
-        }
-     
-        if ($request->has('username')) {
-            unset($request['username']);
-        }
-     
-        if ($request->has('api_token')) {
-            unset($request['api_token']);
-        }
-     
-        $request->validate([
-            'first_name' => 'required|max:64',
-            'middle_name' => 'max:64',
-            'last_name' => 'required|max:64',
-            'email' => 'required|unique:users|max:256',
+        
+        $validator = $request->validate([
+            'first_name'    => 'required|max:64',
+            'middle_name'   => 'max:64',
+            'last_name'     => 'required|max:64',
+            'email'         => 'required|unique:users|max:256',
         ]);
-     
-        DB::table('users')->insert([
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'contact_number' => $request->contact_number,
-            'disabled' => false,
-        ]);
-     
-        $users = DB::table('users')->where('email', $email)->get();
-     
-        if (count($users) > 0) {
-            $user = $users[0];
-            $user->login_date_formatted = $user->login_date->format('Y-m-d H:i:s'); 
-            $user->create_date_formatted = $user->created_at->format('Y-m-d H:i:s'); 
-            $user->update_date_formatted = $user->updated_at->format('Y-m-d H:i:s'); 
-            return $user;
+        
+        if(!$validator->fails())
+        {
+
+            try
+            {
+
+                $userId = DB::table('users')->insertGetId([
+                    'first_name' => $request->first_name,
+                    'middle_name' => $request->middle_name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'contact_number' => $request->contact_number,
+                    'disabled' => false,
+                ]);
+
+                return User::find($userId);
+
+            }
+            catch(Exception $ex)
+            {
+                // We would log this to a bug tracker
+            }
+
         }
      
         return null;
-        
+
     }
 
     public static function getUserPets($id)
