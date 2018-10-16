@@ -31,7 +31,7 @@ class UserControllers extends Controller
         return null;
     }
     
-    public static function addUser()
+    public static function addUser(Request $request)
     {
         
         $validator = $request->validate([
