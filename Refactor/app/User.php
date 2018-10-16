@@ -13,4 +13,12 @@ class User extends Model
         return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
     }
 
+    /**
+     * Relationships
+     */
+    public function pets()
+    {
+        return $this->hasMany(Pet::class, 'user_id'); // assuming user_id relationship exist on the table
+    }
+    
 }

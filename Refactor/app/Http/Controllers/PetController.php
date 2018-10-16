@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 class PetController extends Controller
 {
 
-    public static function getPetById()
+    public static function getPetsByUserId()
     {
      
         
