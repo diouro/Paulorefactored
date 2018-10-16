@@ -13,14 +13,8 @@ class UserControllers extends Controller
     public static function getUsers()
     {
      
-        $users = Users::all();
-        foreach ($users as $user) 
-        {
-            unset($user->password);
-        }
-        
-        return $users;
-        
+        return Users::all();
+                
     }
     
     public static function getUsersById($id)

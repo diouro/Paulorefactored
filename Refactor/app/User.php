@@ -12,6 +12,9 @@ class User extends Model
      */
     protected $table = 'users';
 
+    // Hide password 
+    protected $hidden = ['password'];
+
     /**
 	 * The attributes that are mass assignable.
 	 *
