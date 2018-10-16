@@ -3,11 +3,11 @@
 // API version v1
 Route::group(['prefix' => '/v1', 'middleware' => 'auth'], function () {
 
-    Route::get('/users', 'UserController@getUsers');
-
-    Route::get('/users/{id}', function($id) {
-        
+    Route::group(['prefix' => '/users'], function () {
+        Route::get('/', 'UserController@getUsers');
+        Route::get('/{id}', 'UserController@getUser');    
     });
+    
      
     Route::get('/users/{id}/pets', function($id) {
         $user = null;

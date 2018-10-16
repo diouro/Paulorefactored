@@ -14,7 +14,8 @@ class UserControllers extends Controller
     {
      
         $users = Users::all();
-        foreach ($users as $user) {
+        foreach ($users as $user) 
+        {
             unset($user->password);
         }
         
@@ -22,15 +23,18 @@ class UserControllers extends Controller
         
     }
     
-    public static function getUsersById()
+    public static function getUsersById($id)
     {
-        $user = null;
-        $users = DB::table('users')->where('id', $id)->get();
-        if (count($users) > 0) {
-            $user = $users[0];
+        
+        if($id)
+        {            
+            $user = User::find($id);
+            if ($user) {
+                return $user;
+            }
         }
-     
-        return $user;
+
+        return null;
     }
     
     public static function addUser()
