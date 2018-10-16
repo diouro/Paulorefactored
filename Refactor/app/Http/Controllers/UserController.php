@@ -24,8 +24,13 @@ class UserControllers extends Controller
     
     public static function getUsersById()
     {
+        $user = null;
+        $users = DB::table('users')->where('id', $id)->get();
+        if (count($users) > 0) {
+            $user = $users[0];
+        }
      
-        
+        return $user;
     }
     
     public static function addUser()
