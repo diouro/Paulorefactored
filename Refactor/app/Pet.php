@@ -13,17 +13,9 @@ class Pet extends Model
     protected $table = 'pets';
 
     /**
-     * Function to accessor the user display name
-     */
-    public function getFavoriteFoodAttribute()
-    {
-        return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
-    }
-
-    /**
      * Relationships
      */
-    public function petFoods()
+    public function favoriteFoods()
     {
         return $this->hasMany(PetFood::class, 'pet_id', 'id');  // Assuming PetFood has a pet_id relationship
     }

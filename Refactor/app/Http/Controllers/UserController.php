@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\User;
 
-class UserControllers extends Controller
+class UserController extends Controller
 {
 
     public static function getUsers()
@@ -47,16 +45,16 @@ class UserControllers extends Controller
             try
             {
 
-                $userId = DB::table('users')->insertGetId([
-                    'first_name' => $request->first_name,
-                    'middle_name' => $request->middle_name,
-                    'last_name' => $request->last_name,
-                    'email' => $request->email,
-                    'contact_number' => $request->contact_number,
-                    'disabled' => false,
-                ]);
-
-                return User::find($userId);
+                $user = new User();
+                $user->first_name = $request->first_name;
+                $user->middle_name = $request->middle_name;
+                $user->last_name = $request->last_name;
+                $user->email = $request->email;
+                $user->contact_number = $request->contact_number;
+                $user->disabled = false;
+                $user->save();
+                
+                return $user;
 
             }
             catch(Exception $ex)
@@ -78,7 +76,7 @@ class UserControllers extends Controller
         if($id)
         {
             $pets = User::with(['pet' => function($q) {
-                $q->with(['petfoods']);
+                $q->with(['favoriteFoods']);
             }])->get();
         }
          
@@ -92,6 +90,5 @@ class UserControllers extends Controller
         Pet::find($petId)->delete();
 
     }
-
 
 }
