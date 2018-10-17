@@ -16,6 +16,13 @@ class ExampleTest extends TestCase
     {
         parent::setUp();
         $this->uController = new UserController;
+
+        // Make sure it call this db:seeder before begin the test
+        // Not ideal but at least wont fail for non data
+        \Artisan::call('db:seed' , [
+            '--class' => 'AddDummyInfo'
+        ]);
+
     }
 
     public function testFetchUsers()
