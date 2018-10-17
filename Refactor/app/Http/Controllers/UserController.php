@@ -8,14 +8,14 @@ use App\User;
 class UserController extends Controller
 {
 
-    public static function getUsers()
+    public function getUsers()
     {
      
         return User::all();
 
     }
     
-    public static function getUsersById($id)
+    public function getUser($id)
     {
         
         if($id)
@@ -29,10 +29,10 @@ class UserController extends Controller
         return null;
     }
     
-    public static function addUser(Request $request)
+    public function addUser(Request $request)
     {
         
-        $validator = $request->validate([
+        $validator = Validator::make($request->only(['first_name','middle_name','last_name','email']),[
             'first_name'    => 'required|max:64',
             'middle_name'   => 'max:64',
             'last_name'     => 'required|max:64',
@@ -41,41 +41,40 @@ class UserController extends Controller
         
         if(!$validator->fails())
         {
-
+            
             try
             {
-
+    
                 $user = new User();
                 $user->first_name = $request->first_name;
                 $user->middle_name = $request->middle_name;
                 $user->last_name = $request->last_name;
                 $user->email = $request->email;
-                $user->contact_number = $request->contact_number;
+                $user->contact_number = $request->has('contact_number') ? $request->contact_number : '';
                 $user->disabled = false;
                 $user->save();
                 
                 return $user;
-
+    
             }
             catch(Exception $ex)
             {
-                // We would log this to a bug tracker
+                // We
             }
-
         }
-     
+
         return null;
 
     }
 
-    public static function getUserPets($id)
+    public function getUserPets($id)
     {
 
         $pets = [];
 
         if($id)
         {
-            $pets = User::with(['pet' => function($q) {
+            $pets = User::with(['pets' => function($q) {
                 $q->with(['favoriteFoods']);
             }])->get();
         }
@@ -84,7 +83,7 @@ class UserController extends Controller
         
     }
 
-    public static function deleteUserPet($id,$petId)
+    public function deleteUserPet($id,$petId)
     {
 
         Pet::find($petId)->delete();

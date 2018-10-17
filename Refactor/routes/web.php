@@ -11,7 +11,7 @@ Route::group(['prefix' => '/v1'], function () {
 
         // User pets
         Route::get('/{id}/pets', 'UserController@getUserPets');
-        Route::delete('/{id}/pets/{id}', 'UserController@deleteUserPet');
+        Route::delete('/{id}/pets/{petId}', 'UserController@deleteUserPet');
 
     });
 
